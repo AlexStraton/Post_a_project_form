@@ -1,21 +1,34 @@
 import { useState } from "react";
 
-export default function Dates() {
-  const currentDate = new Date().toLocaleString();
+export default function Dates({
+  currentDate,
+  startDate,
+  setStartDate,
+  dueDate,
+  setDueDate,
+}) {
+  const [startDateError, setStartDateError] = useState("");
+  const [dueDateError, setDueDateError] = useState("");
 
-  const [date, setDate] = useState(currentDate);
-  //const [dateError, setDateError] = useState("");
-  console.log(date);
-  // function handleDate(event: React.ChangeEvent<HTMLInputElement>) {
-  //   setDate(event.target.value);
+  function handleStartDate(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.value < currentDate) {
+      setStartDateError("Start date is in the past");
+      setStartDate(currentDate);
+    } else {
+      setStartDateError("");
+      setStartDate(event.target.value);
+    }
+  }
 
-  //   // if (date < currentDate) {
-  //   //   setDateError("Start date cannot be in the past");
-  //   //   setDate(currentDate);
-  //   // } else {
-  //   //   setDate(event.target.value);
-  //   // }
-  // }
+  function handleDueDate(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.value < startDate) {
+      setDueDateError("Due date is earlier than start date");
+      setDueDate(currentDate);
+    } else {
+      setDueDateError("");
+      setDueDate(event.target.value);
+    }
+  }
 
   return (
     <section className='flex items-center justify-between gap-2'>
@@ -28,11 +41,9 @@ export default function Dates() {
           id='dateRequired'
           type='date'
           name='dateRequired'
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setDate(event.target.value)
-          }
+          onChange={handleStartDate}
         />
-        {/* {dateError} */}
+        <div className='text-sm'>{startDateError}</div>
       </div>
 
       <div>
@@ -44,11 +55,10 @@ export default function Dates() {
           id='dateRequired'
           type='date'
           name='dateRequired'
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            setDate(event.target.value)
-          }
+          onChange={handleDueDate}
         />
-        {/* {dateError} */}
+        <p>{"\t"}</p>
+        <div className='text-sm'>{dueDateError}</div>
       </div>
     </section>
   );

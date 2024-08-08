@@ -1,21 +1,30 @@
 import { useState } from "react";
 import Date from "./Date";
 import Dropdown from "./Dropdown";
+import { useNavigate } from "react-router-dom";
 
-export default function Form() {
-  const [formData, setFormData] = useState({
-    projectOwnerFirstName: "",
-    projectOwnerLastName: "",
-    department: "",
-    manager: "",
-    projectTitle: "",
-    description: "",
-  });
+export default function Form({
+  formData,
+  setFormData,
+  option,
+  setOption,
+  colour,
+  setColour,
+  startDate,
+  setStartDate,
+  dueDate,
+  setDueDate,
+  currentDate,
+}) {
   const [nameError, setNameError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
 
-  function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+  const navigate = useNavigate();
+
+  function handleSubmit(
+    event: React.SyntheticEvent<HTMLFormElement | HTMLButtonElement>
+  ) {
     event.preventDefault();
 
     if (!formData.projectOwnerFirstName || !formData.projectOwnerLastName) {
@@ -24,6 +33,8 @@ export default function Form() {
       setTitleError("Please give your project a title");
     } else if (formData.description.length < 50) {
       setDescriptionError("Description must be longer than 50 characters");
+    } else {
+      navigate("/project-details", { state: { formData } });
     }
   }
 
@@ -131,6 +142,7 @@ export default function Form() {
               } rounded mt-1`}
               value={formData.projectTitle}
               onChange={handleFormChange}
+              placeholder='Title'
             />
           </div>
           {titleError}
@@ -148,10 +160,16 @@ export default function Form() {
               } rounded mt-1`}
               value={formData.description}
               onChange={handleFormChange}
+              placeholder='Write your project description here'
             />
             {descriptionError}
           </div>
-          <Dropdown />
+          <Dropdown
+            option={option}
+            setOption={setOption}
+            colour={colour}
+            setColour={setColour}
+          />
           {/* <div className='flex items-center justify-between'>
             <div className='flex items-center'>
               <input
@@ -163,10 +181,17 @@ export default function Form() {
               </label>
             </div>
           </div> */}
-          <Date />
+          <Date
+            currentDate={currentDate}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            dueDate={dueDate}
+            setDueDate={setDueDate}
+          />
+
           <button
-            onSubmit={handleSubmit}
-            className='w-full py-2 px-4 bg-green-600 hover:bg-blue-900 rounded-md text-white text-sm'>
+            type='submit'
+            className='w-full py-3 px-4 bg-green-600 hover:bg-blue-900 rounded-md text-white text-sm'>
             Submit
           </button>
         </form>
