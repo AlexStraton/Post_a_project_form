@@ -1,32 +1,41 @@
 import { useState } from "react";
 
+interface DatesProps {
+  currentDate: Date;
+  startDate: Date;
+  setStartDate: (date: Date) => void;
+  setDueDate: (date: Date) => void;
+}
+
 export default function Dates({
-  currentDate,
   startDate,
   setStartDate,
-  dueDate,
   setDueDate,
-}) {
+}: DatesProps) {
   const [startDateError, setStartDateError] = useState("");
   const [dueDateError, setDueDateError] = useState("");
+  const currentDate = new Date();
 
   function handleStartDate(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.value < currentDate) {
+    const newStartDate = new Date(event.target.value);
+
+    if (newStartDate < currentDate) {
       setStartDateError("Start date is in the past");
       setStartDate(currentDate);
     } else {
       setStartDateError("");
-      setStartDate(event.target.value);
+      setStartDate(newStartDate);
     }
   }
 
   function handleDueDate(event: React.ChangeEvent<HTMLInputElement>) {
-    if (event.target.value < startDate) {
+    const newDueDate = new Date(event.target.value);
+    if (newDueDate < startDate) {
       setDueDateError("Due date is earlier than start date");
       setDueDate(currentDate);
     } else {
       setDueDateError("");
-      setDueDate(event.target.value);
+      setDueDate(newDueDate);
     }
   }
 

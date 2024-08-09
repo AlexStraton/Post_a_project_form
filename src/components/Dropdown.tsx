@@ -1,13 +1,24 @@
-export default function Dropdown({ option, setOption, colour, setColour }) {
-  function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    const newValue = event.target.value;
-    setOption(newValue);
+interface DropdownProps {
+  setPriority: (setPriority: string) => void;
+  colour: string;
+  setColour: (colsetColourour: string) => void;
+}
 
-    if (newValue === "Low") {
+export default function Dropdown({
+  setPriority,
+  colour,
+  setColour,
+}: DropdownProps) {
+  function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const priority = event.target.value;
+
+    setPriority(priority);
+
+    if (priority === "Low") {
       setColour("bg-green-100");
-    } else if (newValue === "High") {
+    } else if (priority === "High") {
       setColour("bg-yellow-100");
-    } else if (newValue === "Critical") {
+    } else if (priority === "Critical") {
       setColour("bg-red-100");
     }
   }

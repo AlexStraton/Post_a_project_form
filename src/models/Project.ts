@@ -5,7 +5,4 @@ export interface ProjectInterface {
   manager: string;
   projectTitle: string;
   description: string;
-  priority: "Low" | "High" | "Critical";
-  startDate: object; //check if it's date object
-  dueDate: object;
 }

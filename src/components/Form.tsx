@@ -2,20 +2,33 @@ import { useState } from "react";
 import Date from "./Date";
 import Dropdown from "./Dropdown";
 import { useNavigate } from "react-router-dom";
+import { ProjectInterface } from "../models/Project";
+
+interface FormProps {
+  formData: ProjectInterface;
+  setFormData: React.Dispatch<React.SetStateAction<ProjectInterface>>;
+  currentDate: string;
+  priority: string;
+  setPriority: (priority: string) => void;
+  colour: string;
+  setColour: (colour: string) => void;
+  startDate: Date;
+  setStartDate: (date: Date) => void;
+  dueDate: Date;
+  setDueDate: (date: Date) => void;
+}
 
 export default function Form({
+  currentDate,
   formData,
   setFormData,
-  option,
-  setOption,
+  setPriority,
   colour,
   setColour,
   startDate,
   setStartDate,
-  dueDate,
   setDueDate,
-  currentDate,
-}) {
+}: FormProps) {
   const [nameError, setNameError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
@@ -49,15 +62,15 @@ export default function Form({
 
   return (
     <main className='min-h-screen bg-gray-50 flex flex-col justify-center '>
-      <section className='max-w-ad w-full mx-auto '>
+      <section className='max-w-ad w-full mx-auto'>
         <div className='text-center font-medium text-xl text-green'>
-          Set up a project
+          Verticode projects
         </div>
         <div className='text-center text-green text-3xl font-bold mt-2'>
-          Something Here
+          Create your project here
         </div>
       </section>
-      <section className='max-w-md w-full mx-auto mt-4 bg-light-green p-8 border rounded-md border-gray-300'>
+      <section className='max-w-md w-full mx-auto mt-4 mb-4 bg-light-green p-8 border rounded-lg border-green-300 shadow'>
         <form onSubmit={handleSubmit} action='submit' className='space-y-6'>
           <div>
             <label htmlFor='' className='text-green text-sm font-bold block'>
@@ -165,28 +178,16 @@ export default function Form({
             {descriptionError}
           </div>
           <Dropdown
-            option={option}
-            setOption={setOption}
+            setPriority={setPriority}
             colour={colour}
             setColour={setColour}
           />
-          {/* <div className='flex items-center justify-between'>
-            <div className='flex items-center'>
-              <input
-                type='checkbox'
-                className='h4 w-4 text-green-300 rounded'
-              />
-              <label htmlFor='' className='ml-2 text-ml text-gray-600'>
-                Tick if project is completed
-              </label>
-            </div>
-          </div> */}
+
           <Date
-            currentDate={currentDate}
             startDate={startDate}
             setStartDate={setStartDate}
-            dueDate={dueDate}
             setDueDate={setDueDate}
+            currentDate={currentDate}
           />
 
           <button
