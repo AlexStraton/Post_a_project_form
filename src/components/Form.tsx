@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Date from "./Date";
 import Dropdown from "./Dropdown";
 import { useNavigate } from "react-router-dom";
@@ -41,7 +41,6 @@ export default function Form({ formData, setFormData }: FormProps) {
   function handleFormChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
-    console.log(event.target.value, event.target.name);
     setFormData((previousFormData) => ({
       ...previousFormData,
       [event.target.name]: event.target.value,
@@ -50,15 +49,15 @@ export default function Form({ formData, setFormData }: FormProps) {
 
   return (
     <main className='min-h-screen bg-gray-50 flex flex-col justify-center '>
-      <section className='max-w-ad w-full mx-auto'>
-        <div className='text-center font-medium text-5xl text-green'>
+      <section className='max-w-sm w-full mx-auto sm:max-w-xl'>
+        <div className='text-center font-medium text-3xl sm:text-5xl text-green'>
           Projects
         </div>
-        <div className='text-center text-green text-3xl font-bold my-4'>
+        <div className='text-center text-green text-xl sm:text-3xl font-bold my-4'>
           Create your project here
         </div>
       </section>
-      <section className='max-w-md w-full mx-auto mt-4 mb-4 bg-light-green p-8 border rounded-lg border-green-300 shadow'>
+      <section className='w-11/12 sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto mt-4 mb-4 bg-light-green p-8 border rounded-lg border-green-300 shadow'>
         <form onSubmit={handleSubmit} action='submit' className='space-y-6'>
           <div>
             <label htmlFor='' className='text-green text-md font-bold block'>
@@ -170,9 +169,6 @@ export default function Form({ formData, setFormData }: FormProps) {
           <Dropdown setFormData={setFormData} formData={formData} />
 
           <Date
-            // startDate={startDate}
-            // setStartDate={setStartDate}
-            // setDueDate={setDueDate}
             formData={formData}
             setFormData={setFormData}
             startDateError={startDateError}

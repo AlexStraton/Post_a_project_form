@@ -4,9 +4,6 @@ import { ProjectInterface } from "../models/Project";
 
 interface ProjectDetailsProps {
   formData: ProjectInterface;
-  // priority: string;
-  // startDate: Date;
-  // dueDate: Date;
 }
 
 export default function ProjectDetails({ formData }: ProjectDetailsProps) {
@@ -37,10 +34,10 @@ export default function ProjectDetails({ formData }: ProjectDetailsProps) {
 
   return (
     <>
-      <h1 className='text-center text-4xl font-semibold text-green-700 mt-8'>
+      <h1 className=' mx-4 sm:mx-auto sm:max-w-xl text-center text-3xl sm:text-4xl font-semibold text-green-700 mt-8'>
         Project Details
       </h1>
-      <section className='max-w-2xl mx-auto mt-8 mb-4 bg-light-green p-8 border border-green-300 rounded-lg shadow'>
+      <section className='mx-4 sm:mx-auto max-w-md sm:max-w-2xl mt-8 mb-4 bg-light-green p-4 sm:p-8 border border-green-300 rounded-lg shadow'>
         <div className='mt-4'>
           <h2 className='text-left text-2xl font-semibold text-green-700'>
             Project Title:{" "}
@@ -81,7 +78,7 @@ export default function ProjectDetails({ formData }: ProjectDetailsProps) {
           <h2 className='text-left text-2xl font-semibold text-green-700'>
             Project Description:{" "}
           </h2>
-          <div className='bg-gray-200 w-full mx-2 p-2 rounded text-2xl'>
+          <div className='flex flex-wrap bg-gray-200 w-full mx-2 p-2 rounded text-2xl'>
             {formData.description}
           </div>
         </div>
