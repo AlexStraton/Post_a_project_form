@@ -7,31 +7,14 @@ import { ProjectInterface } from "../models/Project";
 interface FormProps {
   formData: ProjectInterface;
   setFormData: React.Dispatch<React.SetStateAction<ProjectInterface>>;
-  currentDate: string;
-  priority: string;
-  setPriority: (priority: string) => void;
-  colour: string;
-  setColour: (colour: string) => void;
-  startDate: Date;
-  setStartDate: (date: Date) => void;
-  dueDate: Date;
-  setDueDate: (date: Date) => void;
 }
 
-export default function Form({
-  currentDate,
-  formData,
-  setFormData,
-  setPriority,
-  colour,
-  setColour,
-  startDate,
-  setStartDate,
-  setDueDate,
-}: FormProps) {
+export default function Form({ formData, setFormData }: FormProps) {
   const [nameError, setNameError] = useState("");
   const [titleError, setTitleError] = useState("");
   const [descriptionError, setDescriptionError] = useState("");
+  const [startDateError, setStartDateError] = useState("");
+  const [dueDateError, setDueDateError] = useState("");
 
   const navigate = useNavigate();
 
@@ -46,6 +29,10 @@ export default function Form({
       setTitleError("Please give your project a title");
     } else if (formData.description.length < 50) {
       setDescriptionError("Description must be longer than 50 characters");
+    } else if (startDateError) {
+      event.preventDefault();
+    } else if (dueDateError) {
+      event.preventDefault();
     } else {
       navigate("/project-details", { state: { formData } });
     }
@@ -54,6 +41,7 @@ export default function Form({
   function handleFormChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
+    console.log(event.target.value, event.target.name);
     setFormData((previousFormData) => ({
       ...previousFormData,
       [event.target.name]: event.target.value,
@@ -63,18 +51,18 @@ export default function Form({
   return (
     <main className='min-h-screen bg-gray-50 flex flex-col justify-center '>
       <section className='max-w-ad w-full mx-auto'>
-        <div className='text-center font-medium text-xl text-green'>
-          Verticode projects
+        <div className='text-center font-medium text-5xl text-green'>
+          Projects
         </div>
-        <div className='text-center text-green text-3xl font-bold mt-2'>
+        <div className='text-center text-green text-3xl font-bold my-4'>
           Create your project here
         </div>
       </section>
       <section className='max-w-md w-full mx-auto mt-4 mb-4 bg-light-green p-8 border rounded-lg border-green-300 shadow'>
         <form onSubmit={handleSubmit} action='submit' className='space-y-6'>
           <div>
-            <label htmlFor='' className='text-green text-sm font-bold block'>
-              Project Owner
+            <label htmlFor='' className='text-green text-md font-bold block'>
+              Project Owner <span className='text-red-700'>*</span>
             </label>
             <div className='flex items-center justify-between gap-2'>
               <input
@@ -103,7 +91,7 @@ export default function Form({
                 onChange={handleFormChange}
               />
             </div>
-            {nameError}
+            <div className='text-red-900 font-bold text-sm'>{nameError}</div>
           </div>
 
           <div>
@@ -143,7 +131,7 @@ export default function Form({
 
           <div>
             <label htmlFor='' className='text-green text-sm font-bold  block'>
-              Project Title
+              Project Title <span className='text-red-700'>*</span>
             </label>
             <input
               name='projectTitle'
@@ -157,11 +145,11 @@ export default function Form({
               onChange={handleFormChange}
               placeholder='Title'
             />
+            <div className='text-red-900 font-bold text-sm'>{titleError}</div>
           </div>
-          {titleError}
           <div>
             <label htmlFor='' className='text-green text-sm font-bold  block'>
-              Description
+              Description <span className='text-red-700'>*</span>
             </label>
             <textarea
               name='description'
@@ -175,19 +163,22 @@ export default function Form({
               onChange={handleFormChange}
               placeholder='Write your project description here'
             />
-            {descriptionError}
+            <div className='text-red-900 font-bold text-sm'>
+              {descriptionError}
+            </div>
           </div>
-          <Dropdown
-            setPriority={setPriority}
-            colour={colour}
-            setColour={setColour}
-          />
+          <Dropdown setFormData={setFormData} formData={formData} />
 
           <Date
-            startDate={startDate}
-            setStartDate={setStartDate}
-            setDueDate={setDueDate}
-            currentDate={currentDate}
+            // startDate={startDate}
+            // setStartDate={setStartDate}
+            // setDueDate={setDueDate}
+            formData={formData}
+            setFormData={setFormData}
+            startDateError={startDateError}
+            setStartDateError={setStartDateError}
+            dueDateError={dueDateError}
+            setDueDateError={setDueDateError}
           />
 
           <button

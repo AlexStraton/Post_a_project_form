@@ -5,4 +5,8 @@ export interface ProjectInterface {
   manager: string;
   projectTitle: string;
   description: string;
+  priority: string;
+  colour: string;
+  startDate: string;
+  dueDate: string;
 }

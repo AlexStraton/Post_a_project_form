@@ -1,19 +1,22 @@
-import { useState } from "react";
+import { ProjectInterface } from "../models/Project";
 
 interface DatesProps {
-  currentDate: Date;
-  startDate: Date;
-  setStartDate: (date: Date) => void;
-  setDueDate: (date: Date) => void;
+  setFormData: React.Dispatch<React.SetStateAction<ProjectInterface>>;
+  formData: ProjectInterface;
+  startDateError: string;
+  setStartDateError: (error: string) => void;
+  dueDateError: string;
+  setDueDateError: (error: string) => void;
 }
 
 export default function Dates({
-  startDate,
-  setStartDate,
-  setDueDate,
+  startDateError,
+  setStartDateError,
+  dueDateError,
+  setDueDateError,
+  formData,
+  setFormData,
 }: DatesProps) {
-  const [startDateError, setStartDateError] = useState("");
-  const [dueDateError, setDueDateError] = useState("");
   const currentDate = new Date();
 
   function handleStartDate(event: React.ChangeEvent<HTMLInputElement>) {
@@ -21,54 +24,63 @@ export default function Dates({
 
     if (newStartDate < currentDate) {
       setStartDateError("Start date is in the past");
-      setStartDate(currentDate);
     } else {
       setStartDateError("");
-      setStartDate(newStartDate);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        startDate: newStartDate.toISOString().slice(0, 10),
+      }));
     }
   }
 
   function handleDueDate(event: React.ChangeEvent<HTMLInputElement>) {
     const newDueDate = new Date(event.target.value);
-    if (newDueDate < startDate) {
+    const start = new Date(formData.startDate);
+    if (newDueDate < start) {
       setDueDateError("Due date is earlier than start date");
-      setDueDate(currentDate);
     } else {
       setDueDateError("");
-      setDueDate(newDueDate);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        dueDate: newDueDate.toISOString().slice(0, 10),
+      }));
     }
   }
 
   return (
-    <section className='flex items-center justify-between gap-2'>
-      <div>
-        <label htmlFor='' className='text-green text-sm font-bold block'>
-          Start Date
-        </label>
-        <input
-          className='w-full p-2 border border-gray-300 rounded mt-1'
-          id='dateRequired'
-          type='date'
-          name='dateRequired'
-          onChange={handleStartDate}
-        />
-        <div className='text-sm'>{startDateError}</div>
-      </div>
+    <>
+      <section className='flex items-center justify-between gap-2'>
+        <div>
+          <label htmlFor='' className='text-green text-sm font-bold block'>
+            Start Date
+          </label>
+          <input
+            className='w-full p-2 border border-gray-300 rounded mt-1'
+            id='dateRequired'
+            type='date'
+            name='dateRequired'
+            value={formData.startDate || ""}
+            onChange={handleStartDate}
+          />
+          <div className='text-sm text-red-900 font-bold'>{startDateError}</div>
+        </div>
 
-      <div>
-        <label htmlFor='' className='text-green text-sm font-bold block'>
-          Due Date
-        </label>
-        <input
-          className='w-full p-2 border border-gray-300 rounded mt-1'
-          id='dateRequired'
-          type='date'
-          name='dateRequired'
-          onChange={handleDueDate}
-        />
-        <p>{"\t"}</p>
-        <div className='text-sm'>{dueDateError}</div>
-      </div>
-    </section>
+        <div>
+          <label htmlFor='' className='text-green text-sm font-bold block'>
+            Due Date
+          </label>
+          <input
+            className='w-full p-2 border border-gray-300 rounded mt-1'
+            id='dateRequired'
+            type='date'
+            name='dateRequired'
+            value={formData.dueDate || ""}
+            onChange={handleDueDate}
+          />
+
+          <div className='text-sm text-red-900 font-bold'>{dueDateError}</div>
+        </div>
+      </section>
+    </>
   );
 }

@@ -13,15 +13,11 @@ export default function App() {
     manager: "",
     projectTitle: "",
     description: "",
+    priority: "",
+    colour: "bg-green-100",
+    startDate: currentDate,
+    dueDate: currentDate,
   });
-
-  //Dropdown state
-  const [priority, setPriority] = useState("Low");
-  const [colour, setColour] = useState("bg-green-100");
-
-  //Date state
-  const [startDate, setStartDate] = useState(currentDate);
-  const [dueDate, setDueDate] = useState(currentDate);
 
   return (
     <main className='flex flex-col'>
@@ -31,31 +27,11 @@ export default function App() {
       <Routes>
         <Route
           path='/'
-          element={
-            <Form
-              formData={formData}
-              setFormData={setFormData}
-              setPriority={setPriority}
-              colour={colour}
-              setColour={setColour}
-              startDate={startDate}
-              setStartDate={setStartDate}
-              setDueDate={setDueDate}
-              currentDate={currentDate}
-            />
-          }
+          element={<Form formData={formData} setFormData={setFormData} />}
         />
         <Route
           path='/project-details'
-          element={
-            <ProjectDetails
-              formData={formData}
-              priority={priority}
-              colour={colour}
-              startDate={startDate}
-              dueDate={dueDate}
-            />
-          }
+          element={<ProjectDetails formData={formData} />}
         />
       </Routes>
     </main>
