@@ -10,9 +10,8 @@ const formatDate: DateFormattingFunction = (date) => {
       month: "short",
       year: "numeric",
     });
-    console.log(formattedDate);
     return formattedDate;
   }
 };
-//.replace(/ /g, '-');
+
 export default formatDate;

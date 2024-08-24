@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import formatDate from "../utils/date-utils";
 import { ProjectInterface } from "../models/Project";
+import ConfettiExplosion from "react-confetti-explosion";
+import { useLocation } from "react-router-dom";
 
 interface ProjectDetailsProps {
   formData: ProjectInterface;
+  isExploding: boolean;
 }
 
 export default function ProjectDetails({ formData }: ProjectDetailsProps) {
@@ -12,6 +15,10 @@ export default function ProjectDetails({ formData }: ProjectDetailsProps) {
 
   const startDateObject = new Date(formData.startDate);
   const dueDateObject = new Date(formData.dueDate);
+
+  const location = useLocation();
+  const { isExploding } = location.state;
+
   const handleChange = () => {
     setChecked(!checked);
   };
@@ -34,6 +41,23 @@ export default function ProjectDetails({ formData }: ProjectDetailsProps) {
 
   return (
     <>
+      {isExploding && (
+        <div
+          style={{
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 1000,
+          }}>
+          <ConfettiExplosion
+            force={2}
+            duration={5000}
+            particleCount={250}
+            width={2000}
+          />
+        </div>
+      )}
       <h1 className=' mx-4 sm:mx-auto sm:max-w-xl text-center text-3xl sm:text-4xl font-semibold text-green-700 mt-8'>
         Project Details
       </h1>

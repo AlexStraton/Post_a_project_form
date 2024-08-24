@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Date from "./Date";
 import Dropdown from "./Dropdown";
 import { useNavigate } from "react-router-dom";
 import { ProjectInterface } from "../models/Project";
+//import ConfettiExplosion from "react-confetti-explosion";
 
 interface FormProps {
   formData: ProjectInterface;
@@ -15,6 +16,7 @@ export default function Form({ formData, setFormData }: FormProps) {
   const [descriptionError, setDescriptionError] = useState("");
   const [startDateError, setStartDateError] = useState("");
   const [dueDateError, setDueDateError] = useState("");
+  const [isExploding, setIsExploding] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,7 +36,10 @@ export default function Form({ formData, setFormData }: FormProps) {
     } else if (dueDateError) {
       event.preventDefault();
     } else {
-      navigate("/project-details", { state: { formData } });
+      navigate("/project-details", { state: { formData, isExploding: true } });
+      setIsExploding(true);
+      console.log("Confetti should explode now.");
+      console.log(isExploding);
     }
   }
 
